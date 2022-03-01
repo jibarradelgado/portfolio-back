@@ -1,14 +1,15 @@
 const store = require('./store');
 
-function addAsset(asset) {
+function addAsset(name, value) {
   return new Promise((resolve, reject) => {
-    if (!asset) {
+    if (!name || !value) {
       console.error('[assetController] There is no asset');
       reject('Incorrect data');
     }
 
     const fullAsset = {
-      asset: asset,
+      name: name,
+      value: value
     };
     store.add(fullAsset);
     resolve(fullAsset);
@@ -17,7 +18,11 @@ function addAsset(asset) {
 
 function getAssets() {
   return new Promise((resolve, reject) => {
-    resolve(store.list());
+    if(store.list()) {
+      resolve(store.list());
+    } else {
+      reject('[assetControleler]: There are no saved assets');
+    }
   });
 }
 
