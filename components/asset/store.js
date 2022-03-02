@@ -1,5 +1,5 @@
 const db = require("mongoose");
-const model = require("./model");
+const Model = require("./model");
 
 db.Promise = global.Promise;
 db.connect('mongodb+srv://db_user_portfolio:ygQZIvAVBSLQFwQl@cluster0.n227s.mongodb.net/portfolioDB?retryWrites=true&w=majority', {
@@ -10,22 +10,41 @@ console.log('[db]: Successful connection');
 
 function addAsset(asset) {
   try {
-    const myAsset = new model(asset);
+    const myAsset = new Model(asset);
     myAsset.save();
   } catch (error) {
     return error;
   }
 }
 
-async function getAssets() {
-  const assets = await model.find();
+async function getAssets(filterAssetsByName) {
+  let filter = {};
+  if (filterAssetsByName !== null) {
+    filter = { name: filterAssetsByName};
+  }
+  const assets = await Model.find(filter);
   return assets;
+}
+
+async function updateAsset(id, name) {
+  const asset = await Model.findOne({
+    _id: id
+  });
+
+  asset.name = name;
+  const newAsset = await asset.save();
+  return newAsset;
+}
+
+function removeAsset(id) {
+  return Model.deleteOne({
+    _id:id
+  })
 }
 
 module.exports = {
   add: addAsset,
   list: getAssets,
-  //get
-  //update
-  //delete
+  updateAsset: updateAsset,
+  remove: removeAsset,
 }

@@ -16,17 +16,41 @@ function addAsset(name, value) {
   });
 }
 
-function getAssets() {
+function getAssets(filterAssetsByName) {
   return new Promise((resolve, reject) => {
     if(store.list()) {
-      resolve(store.list());
+      resolve(store.list(filterAssetsByName));
     } else {
-      reject('[assetControleler]: There are no saved assets');
+      reject('[assetController]: There are no saved assets');
     }
   });
+}
+
+function updateAsset(id, name) {
+  return new Promise(async (resolve, reject) => {
+    if (!id || !name) {
+      reject('[assetController]: Invalid data');
+    }
+
+    const result = await store.updateAsset(id, name);
+    resolve(result);
+  });
+}
+
+function deleteAsset(id) {
+  return new Promise(async (resolve, reject) => {
+    if (!id) {
+      reject('[assetController]: Invalid data');
+    }
+
+    const result = await store.remove(id);
+    resolve(result);
+  })
 }
 
 module.exports = {
   addAsset,
   getAssets,
+  updateAsset,
+  deleteAsset,
 }
