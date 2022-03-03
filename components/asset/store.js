@@ -1,12 +1,4 @@
-const db = require("mongoose");
 const Model = require("./model");
-
-db.Promise = global.Promise;
-db.connect('mongodb+srv://db_user_portfolio:ygQZIvAVBSLQFwQl@cluster0.n227s.mongodb.net/portfolioDB?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-});
-
-console.log('[db]: Successful connection');
 
 function addAsset(asset) {
   try {
