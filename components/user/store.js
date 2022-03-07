@@ -14,8 +14,25 @@ async function getUsers(filterUsersByName) {
   return users;
 }
 
+async function updateUser(id, name) {
+  const asset = await Model.findOne({
+    _id: id
+  });
+
+  asset.name = name;
+  const newAsset = await asset.save();
+  return newAsset;
+}
+
+function removeUser(id) {
+  return Model.deleteOne({
+    _id:id
+  })
+}
 
 module.exports = {
   add: addUser,
   list: getUsers,
+  update: updateUser,
+  remove: removeUser,
 }

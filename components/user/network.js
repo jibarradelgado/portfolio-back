@@ -23,4 +23,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.patch('/:id', async (req, res) => {
+  console.log(req.params.id);
+  try {
+  const data = await controller.updateUser(req.params.id, req.body.name);
+  response.success(req, res, data, 200);
+  } catch (error) {
+    console.error(`[PATCH/user]: ${error}`);
+    response.error(req, res, "Server Error", 500, error);
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    await controller.deleteUser(req.params.id);
+    response.success(req, res, `User ${req.params.id} removed`, 200);
+  } catch (error) {
+    response.error(req, res, "Server Error", 500, error);
+  }
+});
+
 module.exports = router;
