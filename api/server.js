@@ -8,8 +8,6 @@ const db = require('../db');
 const router = require('../network/routes');
 
 db(config.dbUrl);
-
-
 app.use(bodyParser.json());
 
 router(app);
