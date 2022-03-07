@@ -1,6 +1,6 @@
 const express = require('express');
-const asset = require('../components/asset/network');
-const user = require('../components/user/network');
+const asset = require('../api/components/asset/network');
+const user = require('../api/components/user/network');
 
 const routes = function(server) {
   server.use('/asset', asset);
