@@ -9,13 +9,13 @@ router.get('/', async (req, res) => {
     const allAssets = await controller.getAssets(filterAssetsByName);
     response.success(req, res, allAssets, 200);
   } catch(error) {
-    response.error(req, res, "Error getting Assets", 400, error);
+    response.error(req, res, "Error getting Assets", 500, error);
   }
 });
 
 router.post('/', async (req, res) => {
   try {
-    const body = await controller.addAsset(req.body.name, req.body.value);
+    const body = await controller.addAsset(req.body.user, req.body.name, req.body.value);
     response.success(req, res, body, 201);
   } catch (error) {
     console.error(`[POST/asset]: ${error}`);

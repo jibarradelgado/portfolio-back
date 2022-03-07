@@ -10,12 +10,20 @@ function addAsset(asset) {
 }
 
 async function getAssets(filterAssetsByName) {
-  let filter = {};
-  if (filterAssetsByName !== null) {
-    filter = { name: filterAssetsByName};
-  }
-  const assets = await Model.find(filter);
-  return assets;
+  return new Promise((resolve, reject) => {
+    let filter = {};
+    if (filterAssetsByName !== null) {
+      filter = { name: filterAssetsByName};
+    }
+    Model.find(filter)
+      .populate('user')
+      .exec((error, populated) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(populated);
+      })
+  });
 }
 
 async function updateAsset(id, name) {
