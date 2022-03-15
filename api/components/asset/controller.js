@@ -1,6 +1,6 @@
 const store = require('./store');
 
-function addAsset(user, name, value) {
+function addAsset(user, name, value, asset_type) {
   return new Promise((resolve, reject) => {
     if (!name || !value) {
       console.error('[assetController] There is no asset');
@@ -10,7 +10,8 @@ function addAsset(user, name, value) {
     const fullAsset = {
       user: user,
       name: name,
-      value: value
+      value: value,
+      asset_type: asset_type,
     };
     store.add(fullAsset);
     resolve(fullAsset);

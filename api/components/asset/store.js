@@ -17,6 +17,7 @@ async function getAssets(filterAssetsByName) {
     }
     Model.find(filter)
       .populate('user')
+      .populate('asset_type')
       .exec((error, populated) => {
         if (error) {
           reject(error);
