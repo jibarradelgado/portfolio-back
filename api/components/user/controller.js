@@ -1,15 +1,31 @@
 const store = require('./store');
+const authController = require('../auth/controller');
 
-function addUser(name) {
-  if (!name) {
-    return Promise.reject('Invalid name');
+async function addUser(body) {
+  if (!body.name) {
+    return Promise.reject('No name found');
+  }
+  if (!body.username) {
+    return Promise.reject('No username found');
+  }
+  if (!body.password) {
+    return Promise.reject("No password found");
   }
 
-  const user = {
-    name,
-  };
-
-  return store.add(user);
+  const auth = {
+    username: body.username,
+    password: body.password
+  }
+  try {
+    const newAuth = await authController.addAuth(auth);
+    const user = {
+      name: body.name,
+      auth: newAuth,
+    };
+    return store.add(user);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 function getUsers(filterUsersByName) {
@@ -22,14 +38,23 @@ function getUsers(filterUsersByName) {
   });
 }
 
-function updateUser(id, name) {
+function updateUser(id, body) {
   return new Promise(async (resolve, reject) => {
-    if (!id || !name) {
+    if (!id || !body) {
       reject('[userController]: Invalid data');
     }
 
-    const result = await store.update(id, name);
-    resolve(result);
+    if (body.auth) {
+        try {
+          const auth = await authController.updateAuth(body.auth);
+          resolve (auth);
+        } catch (err) {
+          return Promise.reject(err);
+        }
+    } else {
+      const result = await store.update(id, body);
+      resolve(result);
+    }
   });
 }
 

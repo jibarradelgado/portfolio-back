@@ -14,14 +14,17 @@ async function getUsers(filterUsersByName) {
   return users;
 }
 
-async function updateUser(id, name) {
-  const asset = await Model.findOne({
+async function updateUser(id, data) {
+  const user = await Model.findOne({
     _id: id
   });
 
-  asset.name = name;
-  const newAsset = await asset.save();
-  return newAsset;
+  if (data.name) {
+    user.name = data.name;
+  }
+
+  const newUser = await user.save();
+  return newUser;
 }
 
 function removeUser(id) {

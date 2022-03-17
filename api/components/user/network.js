@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   try {
-    const body = await controller.addUser(req.body.name);
+    const body = await controller.addUser(req.body);
     response.success(req, res, body, 201);
   } catch (error) {
     console.error(`[POST/user]: ${error}`);
@@ -24,9 +24,8 @@ router.get('/', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  console.log(req.params.id);
   try {
-  const data = await controller.updateUser(req.params.id, req.body.name);
+  const data = await controller.updateUser(req.params.id, req.body);
   response.success(req, res, data, 200);
   } catch (error) {
     console.error(`[PATCH/user]: ${error}`);
