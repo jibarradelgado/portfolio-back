@@ -35,7 +35,7 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    await controller.deleteUser(req.params.id);
+    await controller.deleteUser(req.params.id, req.body);
     response.success(req, res, `User ${req.params.id} removed`, 200);
   } catch (error) {
     response.error(req, res, "Server Error", 500, error);

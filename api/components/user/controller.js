@@ -58,15 +58,26 @@ function updateUser(id, body) {
   });
 }
 
-function deleteUser(id) {
+function deleteUser(id, body) {
   return new Promise(async (resolve, reject) => {
-    if (!id) {
-      reject('[userController]: Invalid data');
-    }
+    try {
+      console.log(body);
+      if (!id) {
+        reject('[userController]: Invalid data');
+      }
+      if (!body.id) {
+        reject('[userController]: Invalidd data');
+      }
 
-    const result = await store.remove(id);
-    resolve(result);
-  })
+      const successAuth = await authController.deleteAuth(body.id);
+      if (successAuth) {
+        const result = await store.remove(id);
+        resolve(result);
+      }
+    } catch (err) {
+      reject(err);
+    }
+  });
 }
 
 module.exports = {
