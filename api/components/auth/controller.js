@@ -1,3 +1,4 @@
+const auth = require('../../../auth')
 const store = require('./store');
 
 async function addAuth(data) {
@@ -12,6 +13,15 @@ async function addAuth(data) {
     password: data.password,
   };
   return store.add(authData);
+}
+
+async function login(username, password) {
+  const data = await getAuth(username);
+  if (data[0].password === password) {
+    return auth.sign(data[0]);
+  } else {
+    throw new Error('Invalid information');
+  }
 }
 
 async function getAuth(filterAuthByUsername) {
@@ -57,4 +67,5 @@ module.exports = {
   getAuth,
   updateAuth,
   deleteAuth,
+  login,
 }
