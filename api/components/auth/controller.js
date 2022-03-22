@@ -1,4 +1,5 @@
-const auth = require('../../../auth')
+const bcrypt = require('bcrypt');
+const auth = require('../../../auth');
 const store = require('./store');
 
 async function addAuth(data) {
@@ -10,14 +11,15 @@ async function addAuth(data) {
   }
   const authData = {
     username: data.username,
-    password: data.password,
+    password: await bcrypt.hash(data.password, 5),
   };
   return store.add(authData);
 }
 
 async function login(username, password) {
   const data = await getAuth(username);
-  if (data[0].password === password) {
+  const areEquals = await bcrypt.compare(password, data[0].password);
+  if (areEquals) {
     return auth.sign(data[0]);
   } else {
     throw new Error('Invalid information');
@@ -46,7 +48,7 @@ async function updateAuth(data) {
     authData.username = data.username;
   }
   if (data.password) {
-    authData.password = data.password;
+    authData.password = await bcrypt.hash(data.password, 5);
   }
   return store.update(authData);
 }

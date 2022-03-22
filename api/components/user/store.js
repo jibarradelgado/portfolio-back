@@ -10,7 +10,6 @@ async function getUsers(filterUsersByName) {
   if (filterUsersByName !== null) {
     filter = { name: filterUsersByName};
   }
-  console.log(filter);
   const users = await Model.find(filter);
   return users;
 }
