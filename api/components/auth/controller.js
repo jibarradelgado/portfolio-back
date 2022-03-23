@@ -36,6 +36,16 @@ async function getAuth(filterAuthByUsername) {
   });
 }
 
+async function getAllAuths(filterAuthByUsername) {
+  return new Promise((resolve, reject) => {
+    if(store.listAll()) {
+      resolve(store.listAll(filterAuthByUsername));
+    } else {
+      reject('[authController]: There are no saved auths');
+    }
+  });
+}
+
 async function updateAuth(data) {
   if (!data._id || (!data.username && !data.password)) {
     return Promise.reject('Invalid data');
@@ -67,6 +77,7 @@ function deleteAuth(id) {
 module.exports = {
   addAuth,
   getAuth,
+  getAllAuths,
   updateAuth,
   deleteAuth,
   login,

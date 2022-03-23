@@ -15,6 +15,15 @@ async function getAuth(filterAuthByUsername) {
   else return null;
 }
 
+async function getAllAuths(filterAuthByUsername) {
+  let filter = {};
+  if (filterAuthByUsername !== null) {
+    filter = { username: filterAuthByUsername};
+  }
+  const auth = await Model.find(filter);
+  return auth;
+}
+
 async function updateAuth(data) {
   if(!data._id) {
     return Promise.reject('[authStore]: Invalid data');
@@ -43,6 +52,7 @@ function removeAuth(id) {
 module.exports = {
   add: addAuth,
   list: getAuth,
+  listAll: getAllAuths,
   update: updateAuth,
   remove: removeAuth,
 }

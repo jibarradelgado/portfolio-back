@@ -15,7 +15,7 @@ router.post('/login', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const filterUsersByUsername = req.query.name || null;
-    const auths = await controller.getAuth(filterUsersByUsername);
+    const auths = await controller.getAllAuths(filterUsersByUsername);
     response.success(req, res, auths, 200);
   } catch (error) {
     response.error(req, res, "Error getting Auths", 500, error);
