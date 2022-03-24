@@ -3,7 +3,7 @@ const config = require('../config');
 const secret = config.jwt.secret;
 
 function sign(data) {
-  jwt.sign(data.toJSON(), secret);
+  return jwt.sign(data.toJSON(), secret);
 }
 
 function verify(token) {
@@ -13,7 +13,10 @@ function verify(token) {
 const check = {
   own: (req, owner) => {
     const decoded = decodeHeader(req);
-    console.log(decoded);
+    console.log(decoded._id);
+    if (decoded._id !== owner) {
+      throw new Error('You cannot do this');
+    }
   },
 };
 
@@ -42,4 +45,5 @@ function decodeHeader(req) {
 
 module.exports = {
   sign,
+  check,
 };

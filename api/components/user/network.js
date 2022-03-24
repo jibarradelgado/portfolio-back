@@ -1,4 +1,5 @@
 const express = require('express');
+const secure = require('./secure');
 const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
@@ -23,7 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', secure.checkAuth('update'), async (req, res) => {
   try {
   const data = await controller.updateUser(req.params.id, req.body);
   response.success(req, res, data, 200);

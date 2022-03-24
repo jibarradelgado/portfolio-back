@@ -47,12 +47,12 @@ async function getAllAuths(filterAuthByUsername) {
 }
 
 async function updateAuth(data) {
-  if (!data._id || (!data.username && !data.password)) {
-    return Promise.reject('Invalid data');
+  if (!data.id || (!data.username && !data.password)) {
+    return Promise.reject('[authController]: Invalid data');
   }
 
   const authData = {
-    _id: data._id,
+    _id: data.id,
   };
   if (data.username) {
     authData.username = data.username;
