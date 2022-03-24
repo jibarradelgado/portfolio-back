@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const config = require('../config');
 const swaggerUI = require('swagger-ui-express');
+const errors = require('../network/errors');
 
 const cors = require('cors');
 const db = require('../db');
@@ -18,6 +19,8 @@ router(app);
 app.use(config.publicRoute, express.static('public'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use(cors());
+
+app.use(errors);
 
 app.listen(config.port);
 console.log('The app is listening in '+ config.host + ':' + config.port);
