@@ -4,7 +4,7 @@
   "description": "A portfolio back-end system",
   "main": "api/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "node api/server.js"
   },
   "repository": {
     "type": "git",
