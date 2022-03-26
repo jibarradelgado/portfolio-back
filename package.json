@@ -4,7 +4,7 @@
   "description": "A portfolio back-end system",
   "main": "api/server.js",
   "scripts": {
-    "prod": "node api/server.js"
+    "start": "node api/server.js"
   },
   "repository": {
     "type": "git",
