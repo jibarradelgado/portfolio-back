@@ -13,13 +13,12 @@ db(config.dbUrl);
 app.use(bodyParser.json());
 
 const swaggerDoc = require('./swagger.json');
+app.use(cors());
 
 router(app);
 
 app.use(config.publicRoute, express.static('public'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
-app.use(cors());
-
 app.use(errors);
 
 app.listen(config.port);
