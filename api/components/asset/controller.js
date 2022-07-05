@@ -1,6 +1,6 @@
 const store = require('./store');
 
-function addAsset(user, name, value, asset_type) {
+function addAsset(user, name, value) {
   return new Promise((resolve, reject) => {
     if (!name || !value) {
       console.error('[assetController] There is no asset');
@@ -11,7 +11,7 @@ function addAsset(user, name, value, asset_type) {
       user: user,
       name: name,
       value: value,
-      asset_type: asset_type,
+      // asset_type: asset_type,
     };
     store.add(fullAsset);
     resolve(fullAsset);
@@ -28,13 +28,13 @@ function getAssets(filterAssetsByName) {
   });
 }
 
-function updateAsset(id, name) {
+function updateAsset(id, name, value) {
   return new Promise(async (resolve, reject) => {
-    if (!id || !name) {
+    if (!id || (!name && !value)) {
       reject('[assetController]: Invalid data');
     }
 
-    const result = await store.updateAsset(id, name);
+    const result = await store.updateAsset(id, name, value);
     resolve(result);
   });
 }

@@ -7,10 +7,10 @@ const mySchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User',
   },
-  asset_type: {
-    type: Schema.ObjectId,
-    ref: 'Asset_Type',
-  },
+  // asset_type: {
+  //   type: Schema.ObjectId,
+  //   ref: 'Asset_Type',
+  // },
   name: {
     type: String,
     required: true,

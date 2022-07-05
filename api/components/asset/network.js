@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   try {
-    const body = await controller.addAsset(req.body.user, req.body.name, req.body.value, req.body.asset_type);
+    const body = await controller.addAsset(req.body.user, req.body.name, req.body.value);
     response.success(req, res, body, 201);
   } catch (error) {
     console.error(`[POST/asset]: ${error}`);
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
-  const data = await controller.updateAsset(req.params.id, req.body.name);
+  const data = await controller.updateAsset(req.params.id, req.body.name, req.body.value);
   response.success(req, res, data, 200);
   } catch (error) {
     console.error(`[PATCH/asset]: ${error}`);

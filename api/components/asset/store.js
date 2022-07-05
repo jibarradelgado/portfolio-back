@@ -17,7 +17,7 @@ async function getAssets(filterAssetsByName) {
     }
     Model.find(filter)
       .populate('user')
-      .populate('asset_type')
+      // .populate('asset_type')
       .exec((error, populated) => {
         if (error) {
           reject(error);
@@ -27,12 +27,13 @@ async function getAssets(filterAssetsByName) {
   });
 }
 
-async function updateAsset(id, name) {
+async function updateAsset(id, name, value) {
   const asset = await Model.findOne({
     _id: id
   });
 
   asset.name = name;
+  asset.value = value;
   const newAsset = await asset.save();
   return newAsset;
 }
