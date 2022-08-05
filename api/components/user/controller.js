@@ -1,5 +1,5 @@
 const store = require('./store');
-const authController = require('../auth/controller');
+const authStore = require('../auth/store');
 
 async function addUser(body) {
   if (!body.name) {
@@ -17,7 +17,7 @@ async function addUser(body) {
     password: body.password
   }
   try {
-    const newAuth = await authController.addAuth(auth);
+    const newAuth = await authStore.add(auth);
     const user = {
       name: body.name,
       auth: newAuth,
@@ -44,9 +44,9 @@ function updateUser(id, body) {
       reject('[userController]: Invalid data');
     }
 
-    if (body.auth) {
+    if (body.auth.username || body.auth.password) {
         try {
-          const auth = await authController.updateAuth(body.auth);
+          const auth = await authStore.update(body.auth);
           resolve (auth);
         } catch (err) {
           return Promise.reject(err);
@@ -66,13 +66,15 @@ function deleteUser(id, body) {
         reject('[userController]: Invalid data');
       }
       if (!body.id) {
-        reject('[userController]: Invalidd data');
+        reject('[userController]: Invalid data');
       }
 
-      const successAuth = await authController.deleteAuth(body.id);
+      const successAuth = await authStore.remove(body.id);
       if (successAuth) {
         const result = await store.remove(id);
         resolve(result);
+      } else {
+        reject("[userController]: couldn't remove auth");
       }
     } catch (err) {
       reject(err);

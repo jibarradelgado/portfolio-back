@@ -1,6 +1,7 @@
 const express = require('express');
 const response = require('../../../network/response');
 const controller = require('./controller');
+const secure = require('./secure');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -20,6 +21,15 @@ router.get('/', async (req, res) => {
     response.success(req, res, allAssets, 200);
   } catch(error) {
     response.error(req, res, "Error getting Assets", 500, error);
+  }
+});
+
+router.get('/:user', async (req, res) => {
+  try {
+    const assetsForUser = await controller.getAssetsForUser(req.username);
+    response.success(req, res, assetsForUser, 200);
+  } catch (error) {
+    response.error(req, res, "Error while getting Assets", 500, error);
   }
 });
 

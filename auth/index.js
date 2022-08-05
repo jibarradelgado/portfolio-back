@@ -4,7 +4,7 @@ const error = require('../utils/error');
 const secret = config.jwt.secret;
 
 function sign(data) {
-  return jwt.sign(data.toJSON(), secret);
+  return jwt.sign(data, secret);
 }
 
 function verify(token) {

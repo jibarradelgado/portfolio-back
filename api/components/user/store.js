@@ -14,6 +14,17 @@ async function getUsers(filterUsersByName) {
   return users;
 }
 
+async function getUserByAuthId(authId) {
+  let filter = {};
+  if (authId !== null) {
+    filter = { auth: {
+      _id: authId
+    }}
+  }
+  const user = await Model.find(filter);
+  return user;
+}
+
 async function updateUser(id, data) {
   const user = await Model.findOne({
     _id: id
@@ -36,6 +47,7 @@ function removeUser(id) {
 module.exports = {
   add: addUser,
   list: getUsers,
+  listByAuthId: getUserByAuthId,
   update: updateUser,
   remove: removeUser,
 }
