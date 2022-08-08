@@ -28,6 +28,16 @@ function getAssets(filterAssetsByName) {
   });
 }
 
+function getAssetsByUserId(filterAssetsByUserId) {
+  return new Promise((resolve, reject) => {
+    if(store.list()) {
+      resolve(store.listByUserId(filterAssetsByUserId));
+    } else {
+      reject('[assetController]: There are no saved assets');
+    }
+  });
+}
+
 function updateAsset(id, name, value) {
   return new Promise(async (resolve, reject) => {
     if (!id || (!name && !value)) {
@@ -53,6 +63,7 @@ function deleteAsset(id) {
 module.exports = {
   addAsset,
   getAssets,
+  getAssetsByUserId,
   updateAsset,
   deleteAsset,
 }

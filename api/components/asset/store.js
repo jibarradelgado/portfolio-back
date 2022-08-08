@@ -27,6 +27,24 @@ async function getAssets(filterAssetsByName) {
   });
 }
 
+async function getAssetsForUser(filterByUserId) {
+  return new Promise((resolve, reject) => {
+    let filter = {};
+    if (filterByUserId !== null) {
+      filter = { user: { _id: filterByUserId }};
+    }
+    Model.find(filter)
+      .populate('user')
+      // .populate('asset_type')
+      .exec((error, populated) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(populated);
+      })
+  });
+}
+
 async function updateAsset(id, name, value) {
   const asset = await Model.findOne({
     _id: id
@@ -47,6 +65,7 @@ function removeAsset(id) {
 module.exports = {
   add: addAsset,
   list: getAssets,
+  listByUserId: getAssetsForUser,
   updateAsset: updateAsset,
   remove: removeAsset,
 }

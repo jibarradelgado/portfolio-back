@@ -24,9 +24,9 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:user', async (req, res) => {
+router.get('/:user/:auth', secure.checkAuth('get'), async (req, res) => {
   try {
-    const assetsForUser = await controller.getAssetsForUser(req.username);
+    const assetsForUser = await controller.getAssetsByUserId(req.params.user);
     response.success(req, res, assetsForUser, 200);
   } catch (error) {
     response.error(req, res, "Error while getting Assets", 500, error);

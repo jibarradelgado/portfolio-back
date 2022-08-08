@@ -14,7 +14,6 @@ function verify(token) {
 const check = {
   own: (req, owner) => {
     const decoded = decodeHeader(req);
-    console.log(decoded._id);
     if (decoded._id !== owner) {
       throw error('You cannot do this', 401);
     }
