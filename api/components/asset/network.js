@@ -4,7 +4,7 @@ const controller = require('./controller');
 const secure = require('./secure');
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', secure.checkAuth('post'), async (req, res) => {
   try {
     const body = await controller.addAsset(req.body.user, req.body.name, req.body.value);
     response.success(req, res, body, 201);
@@ -33,7 +33,7 @@ router.get('/:user/:auth', secure.checkAuth('get'), async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', secure.checkAuth('patch'), async (req, res) => {
   try {
   const data = await controller.updateAsset(req.params.id, req.body.name, req.body.value);
   response.success(req, res, data, 200);
@@ -43,7 +43,7 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id/:auth', secure.checkAuth('delete'), async (req, res) => {
   try {
     await controller.deleteAsset(req.params.id);
     response.success(req, res, `Asset ${req.params.id} removed`, 200);
